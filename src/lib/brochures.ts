@@ -5,7 +5,7 @@ import { panels, type PanelData } from "@/lib/panels";
 export type PanelWithBrochure = PanelData & { brochurePdf: string | null };
 
 function brochureExists(fileName: string) {
-  const absolutePath = path.join(process.cwd(), "public", "brochures", fileName);
+  const absolutePath = path.join(process.cwd(), "public", "Updated Brochures", fileName);
   return existsSync(absolutePath);
 }
 
@@ -13,7 +13,7 @@ export function getPanelsWithBrochures(): PanelWithBrochure[] {
   return panels.map((panel) => ({
     ...panel,
     brochurePdf: brochureExists(panel.brochureFileName)
-      ? `/brochures/${panel.brochureFileName}`
+      ? `/Updated Brochures/${panel.brochureFileName}`
       : null,
   }));
 }

@@ -116,7 +116,7 @@ export const panels: PanelData[] = [
     image: "/panels/respiratory.png",
     cardImage: "/Updated Panel Cards/RPP Card.png",
     imagePosition: "center center",
-    brochureFileName: "respiratory-panel.pdf",
+    brochureFileName: "RPP_Brochure_NP.png",
     brochurePdf: null,
     description:
       "Comprehensive 29-target respiratory assay with broad viral and bacterial coverage for high-confidence clinical decisions.",
@@ -165,7 +165,7 @@ export const panels: PanelData[] = [
     image: "/panels/limited-respiratory.png",
     cardImage: "/Updated Panel Cards/Limited RPP Card.png",
     imagePosition: "center 35%",
-    brochureFileName: "limited-respiratory-panel.pdf",
+    brochureFileName: "LimitedRPP_Brochure_NP.png",
     brochurePdf: null,
     description:
       "Focused respiratory panel delivering rapid answers for high-volume outpatient and urgent settings.",
@@ -233,7 +233,7 @@ export const panels: PanelData[] = [
     image: "/panels/uti.png",
     cardImage: "/Updated Panel Cards/UTI Card.png",
     imagePosition: "center top",
-    brochureFileName: "uti-panel.pdf",
+    brochureFileName: "UTI_Brochure_NP.png",
     brochurePdf: null,
     description:
       "24-target UTI molecular panel supporting rapid diagnosis and treatment planning across care settings.",
@@ -293,7 +293,7 @@ export const panels: PanelData[] = [
     image: "/panels/womens-health.png",
     cardImage: "/Updated Panel Cards/Womens Health Card.png",
     imagePosition: "center top",
-    brochureFileName: "womens-health-panel.pdf",
+    brochureFileName: "WH_Brochure_NP.png",
     brochurePdf: null,
     description:
       "Comprehensive women’s health testing panel for accurate, rapid molecular detection of key urogenital targets.",
@@ -348,7 +348,7 @@ export const panels: PanelData[] = [
     image: "/panels/sti.png",
     cardImage: "/Updated Panel Cards/STI Card.png",
     imagePosition: "center 30%",
-    brochureFileName: "sti-panel.pdf",
+    brochureFileName: "STI_Brochure_NP.png",
     brochurePdf: null,
     description:
       "A focused 12-target STI panel built for fast, dependable molecular screening and treatment support.",
@@ -409,7 +409,7 @@ export const panels: PanelData[] = [
     image: "/panels/wound.png",
     cardImage: "/Updated Panel Cards/Wound Card.png",
     imagePosition: "center top",
-    brochureFileName: "wound-panel.pdf",
+    brochureFileName: "Wound_Brochure_NP.png",
     brochurePdf: null,
     description:
       "Broad bacterial wound-infection coverage to improve diagnostic confidence and accelerate treatment decisions.",
@@ -476,7 +476,7 @@ export const panels: PanelData[] = [
     image: "/panels/pharyngitis.png",
     cardImage: "/Updated Panel Cards/Pharyngitis Card.png",
     imagePosition: "center top",
-    brochureFileName: "pharyngitis-panel.pdf",
+    brochureFileName: "PHN_Brochure_NP.png",
     brochurePdf: null,
     description:
       "21-target pharyngitis panel delivering broad viral and bacterial detection with strong clinical utility.",
