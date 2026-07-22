@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Barlow, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" data-scroll-behavior="smooth">
       <body className={`${barlow.variable} ${barlowCondensed.variable} antialiased`}>
         {children}
+        <GoogleAnalytics gaId="G-40ENXMQ683" />
         {isVercelDeployment ? <Analytics /> : null}
       </body>
     </html>
