@@ -17,9 +17,9 @@ const barlowCondensed = Barlow_Condensed({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://stephensmolecular.com"),
-  title: "Stephens Molecular Group | Precision Molecular Diagnostics",
+  title: "Stephens Molecular Group | Molecular Diagnostics Solutions",
   description:
-    "Stephens Molecular Group provides molecular diagnostics, assay implementation, laboratory consulting, and validation support for laboratories nationwide.",
+    "Molecular diagnostics panels, laboratory consulting, validation support, workflow optimization, and implementation services for clinical laboratories.",
   alternates: {
     canonical: "/",
   },
@@ -32,17 +32,27 @@ export const metadata: Metadata = {
     "Stephens Molecular Group",
   ],
   openGraph: {
-    title: "Stephens Molecular Group | Molecular Diagnostics Solutions for Clinical Laboratories",
+    title: "Stephens Molecular Group | Molecular Diagnostics Solutions",
     description:
-      "Molecular diagnostic products, validation support, and laboratory consulting for modern clinical laboratories.",
-    url: "/",
+      "Molecular diagnostics panels, laboratory consulting, validation support, workflow optimization, and implementation services for clinical laboratories.",
+    url: "https://stephensmolecular.com",
+    siteName: "Stephens Molecular Group",
     type: "website",
     images: [
       {
-        url: "/panels/respiratory.png",
-        alt: "Stephens Molecular Group molecular diagnostics",
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Stephens Molecular Group social sharing preview",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Stephens Molecular Group | Molecular Diagnostics Solutions",
+    description:
+      "Molecular diagnostics panels, laboratory consulting, validation support, workflow optimization, and implementation services for clinical laboratories.",
+    images: ["/og-image.png"],
   },
 };
 

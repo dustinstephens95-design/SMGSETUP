@@ -46,9 +46,9 @@ const validationItems = [
 ];
 
 export const metadata: Metadata = {
-  title: "Stephens Molecular Group | Molecular Diagnostics Solutions for Clinical Laboratories",
+  title: "Stephens Molecular Group | Molecular Diagnostics Solutions",
   description:
-    "Stephens Molecular Group provides molecular diagnostic products, validation support, laboratory consulting, assay implementation, workflow optimization, and technical expertise for clinical laboratories.",
+    "Molecular diagnostics panels, laboratory consulting, validation support, workflow optimization, and implementation services for clinical laboratories.",
 };
 
 export default async function HomePage({ searchParams }: { searchParams?: Promise<Record<string, string | string[] | undefined>> }) {
