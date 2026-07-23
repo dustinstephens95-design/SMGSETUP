@@ -228,3 +228,62 @@ h4 {
     top: 1.5rem;
   }
 }
+
+@media (max-width: 768px) {
+  .panel-mobile-hero {
+    background-image: linear-gradient(135deg, #07224a 0%, #113f8a 55%, #0f6d86 100%) !important;
+  }
+
+  .panel-mobile-hero,
+  .panel-mobile-hero .panel-mobile-hero-content,
+  .panel-mobile-hero .panel-mobile-hero-subtitle,
+  .panel-mobile-hero .panel-mobile-hero-title,
+  .panel-mobile-hero .panel-mobile-hero-description {
+    opacity: 1 !important;
+    visibility: visible;
+  }
+
+  .panel-mobile-hero .panel-mobile-hero-subtitle,
+  .panel-mobile-hero .panel-mobile-hero-title {
+    color: #ffffff !important;
+    text-shadow: none;
+  }
+
+  .panel-mobile-hero .panel-mobile-hero-description {
+    color: rgba(255, 255, 255, 0.88) !important;
+  }
+
+  .validation-support-shell,
+  .validation-support-shell * {
+    opacity: 1 !important;
+  }
+
+  .validation-support-heading :where(h2, h3, h4) {
+    color: #0f2648 !important;
+  }
+
+  .validation-support-heading p {
+    color: #3f5673 !important;
+  }
+
+  .validation-support-grid {
+    position: relative;
+    z-index: 1;
+  }
+
+  .validation-support-card {
+    position: relative;
+    z-index: 2;
+    background-color: #ffffff !important;
+    color: #123054 !important;
+    filter: none;
+    mix-blend-mode: normal;
+    visibility: visible;
+    transform: none;
+  }
+
+  .validation-support-card :where(svg, h3, p, span) {
+    opacity: 1 !important;
+    color: inherit;
+  }
+}

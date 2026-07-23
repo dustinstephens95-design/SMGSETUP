@@ -66,7 +66,7 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
           Back to Home
         </Link>
 
-        <section className={`overflow-hidden rounded-3xl border border-[#c7d7eb] bg-gradient-to-r ${theme.surface}`}>
+        <section className={`panel-mobile-hero overflow-hidden rounded-3xl border border-[#c7d7eb] bg-gradient-to-r ${theme.surface}`}>
           <div className="grid gap-7 p-6 md:grid-cols-[1fr_1.2fr] md:p-10">
             <div className="rounded-2xl border border-white/40 bg-white/75 p-3">
               <div className="relative aspect-[3/4] w-full">
@@ -79,10 +79,10 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
                 />
               </div>
             </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1e4fd6]">{panel.targetCount} Target Multiplex Real-Time PCR Assay</p>
-              <h1 className="mt-3 text-4xl font-semibold leading-[0.95] text-[#0f2648] sm:text-5xl lg:text-6xl">{panel.name}</h1>
-              <p className="mt-4 text-base leading-8 text-[#2f4a69]">{panel.clinicalOverview}</p>
+            <div className="panel-mobile-hero-content">
+              <p className="panel-mobile-hero-subtitle text-xs font-semibold uppercase tracking-[0.2em] text-[#1e4fd6]">{panel.targetCount} Target Multiplex Real-Time PCR Assay</p>
+              <h1 className="panel-mobile-hero-title mt-3 text-4xl font-semibold leading-[0.95] text-[#0f2648] sm:text-5xl lg:text-6xl">{panel.name}</h1>
+              <p className="panel-mobile-hero-description mt-4 text-base leading-8 text-[#2f4a69]">{panel.clinicalOverview}</p>
             </div>
           </div>
         </section>

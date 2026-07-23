@@ -191,15 +191,17 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         </section>
 
         <section className="section-pad mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="section-shell p-8 sm:p-10">
-            <SectionHeading
+          <div className="validation-support-shell section-shell p-8 sm:p-10">
+            <div className="validation-support-heading">
+              <SectionHeading
               eyebrow="Validation Support"
               title="Validation Support for Implementation Planning"
               description="SMG assists laboratories with planning and documentation across the validation lifecycle."
-            />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              />
+            </div>
+            <div className="validation-support-grid grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {validationItems.map((item) => (
-                <div key={item} className="rounded-xl border border-[#c7d7eb] bg-white p-5 text-sm font-medium text-[#123054]">
+                <div key={item} className="validation-support-card rounded-xl border border-[#c7d7eb] bg-white p-5 text-sm font-medium text-[#123054]">
                   {item}
                 </div>
               ))}
