@@ -93,6 +93,7 @@ body {
 @media (prefers-color-scheme: dark) {
   .text-\[\#0f2648\],
   .text-\[\#123052\],
+  .text-\[\#123054\],
   .text-\[\#2f4a69\],
   .text-\[\#3f5673\],
   .text-\[\#385271\],
@@ -254,6 +255,52 @@ h4 {
   }
 
   @media (prefers-color-scheme: dark) {
+    .dark-card-safe,
+    .card,
+    .section-shell {
+      --mobile-dark-heading: #ffffff;
+      --mobile-dark-body: #d6e3f3;
+      --mobile-dark-label: #afc4dd;
+      --mobile-dark-link: #60a5fa;
+    }
+
+    .dark-card-safe :where(h1, h2, h3, h4, h5, h6),
+    .card :where(h1, h2, h3, h4, h5, h6),
+    .section-shell :where(h1, h2, h3, h4, h5, h6) {
+      color: var(--mobile-dark-heading) !important;
+      opacity: 1 !important;
+    }
+
+    .dark-card-safe :where(p, li, label),
+    .card :where(p, li, label),
+    .section-shell :where(p, li, label) {
+      color: var(--mobile-dark-body) !important;
+      opacity: 1 !important;
+    }
+
+    .dark-card-safe :where(.text-\[\#1e4fd6\], .text-\[\#3d5a7d\]),
+    .card :where(.text-\[\#1e4fd6\], .text-\[\#3d5a7d\]),
+    .section-shell :where(.text-\[\#1e4fd6\], .text-\[\#3d5a7d\]) {
+      color: var(--mobile-dark-label) !important;
+      opacity: 1 !important;
+    }
+
+    .dark-card-safe :where(a:not([class*="bg-"])),
+    .card :where(a:not([class*="bg-"])),
+    .section-shell :where(a:not([class*="bg-"])) {
+      color: var(--mobile-dark-link) !important;
+      opacity: 1 !important;
+    }
+
+    .dark-card-safe :where(a:not([class*="bg-"])):hover,
+    .dark-card-safe :where(a:not([class*="bg-"])):focus-visible,
+    .card :where(a:not([class*="bg-"])):hover,
+    .card :where(a:not([class*="bg-"])):focus-visible,
+    .section-shell :where(a:not([class*="bg-"])):hover,
+    .section-shell :where(a:not([class*="bg-"])):focus-visible {
+      color: var(--mobile-dark-link) !important;
+    }
+
     .validation-support-heading :where(p, h2) {
       opacity: 1 !important;
       text-shadow: none;
@@ -271,6 +318,11 @@ h4 {
 
     .validation-support-heading > div > p:last-of-type {
       color: #c7d2e3 !important;
+    }
+
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
     }
   }
 }
