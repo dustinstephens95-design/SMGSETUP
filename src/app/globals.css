@@ -253,37 +253,24 @@ h4 {
     color: rgba(255, 255, 255, 0.88) !important;
   }
 
-  .validation-support-shell,
-  .validation-support-shell * {
-    opacity: 1 !important;
-  }
+  @media (prefers-color-scheme: dark) {
+    .validation-support-heading :where(p, h2) {
+      opacity: 1 !important;
+      text-shadow: none;
+      filter: none;
+      mix-blend-mode: normal;
+    }
 
-  .validation-support-heading :where(h2, h3, h4) {
-    color: #0f2648 !important;
-  }
+    .validation-support-heading > div > p:first-of-type {
+      color: rgba(184, 199, 221, 0.9) !important;
+    }
 
-  .validation-support-heading p {
-    color: #3f5673 !important;
-  }
+    .validation-support-heading h2 {
+      color: #ffffff !important;
+    }
 
-  .validation-support-grid {
-    position: relative;
-    z-index: 1;
-  }
-
-  .validation-support-card {
-    position: relative;
-    z-index: 2;
-    background-color: #ffffff !important;
-    color: #123054 !important;
-    filter: none;
-    mix-blend-mode: normal;
-    visibility: visible;
-    transform: none;
-  }
-
-  .validation-support-card :where(svg, h3, p, span) {
-    opacity: 1 !important;
-    color: inherit;
+    .validation-support-heading > div > p:last-of-type {
+      color: #c7d2e3 !important;
+    }
   }
 }
