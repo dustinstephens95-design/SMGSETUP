@@ -16,7 +16,7 @@ export function PanelCard({ panel }: PanelCardProps) {
     >
       <div className="relative h-[140px] overflow-hidden md:h-[146px] lg:h-[152px]">
         <Image
-          src={panel.cardImage ?? panel.image}
+          src={panel.image}
           alt={`${panel.name} card artwork`}
           fill
           className="object-cover transition duration-500 group-hover:scale-[1.03]"

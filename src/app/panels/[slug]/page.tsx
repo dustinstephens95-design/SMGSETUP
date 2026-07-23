@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       images: [
         {
           url: panel.image,
-          alt: panel.name,
+          alt: `SMG ${panel.name} card`,
         },
       ],
     },
@@ -56,7 +56,7 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
   const theme = panelThemeStyles[panel.theme];
 
   const quoteHref = `/?panel=${encodeURIComponent(panel.name)}&source=panel-detail#contact`;
-  const brochureImageSrc = panel.brochurePdf ?? panel.image;
+  const panelCardImageSrc = panel.image;
 
   return (
     <main className="min-h-screen bg-[var(--bg)] px-4 py-8 sm:px-6 lg:px-8">
@@ -67,15 +67,16 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
         </Link>
 
         <section className={`panel-mobile-hero overflow-hidden rounded-3xl border border-[#c7d7eb] bg-gradient-to-r ${theme.surface}`}>
-          <div className="grid gap-7 p-6 md:grid-cols-[1fr_1.2fr] md:p-10">
-            <div className="rounded-2xl border border-white/40 bg-white/75 p-3">
-              <div className="relative aspect-[3/4] w-full">
+          <div className="grid gap-7 p-6 md:grid-cols-[minmax(0,1fr)_1.2fr] md:items-center md:p-10">
+            <div className="mx-auto w-full max-w-[560px] rounded-2xl border border-white/40 bg-white/30 p-2 sm:p-3">
+              <div className="w-full">
                 <Image
-                  src={brochureImageSrc}
-                  alt={`${panel.name} brochure`}
-                  fill
-                  className="rounded-xl object-contain"
-                  sizes="(max-width: 768px) 100vw, 45vw"
+                  src={panelCardImageSrc}
+                  alt={`SMG ${panel.name} card`}
+                  width={1200}
+                  height={1600}
+                  className="h-auto w-full rounded-xl object-contain"
+                  sizes="(max-width: 768px) calc(100vw - 3rem), (max-width: 1024px) 42vw, 520px"
                 />
               </div>
             </div>

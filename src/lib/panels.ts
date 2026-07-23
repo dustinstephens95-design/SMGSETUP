@@ -16,7 +16,6 @@ export type PanelData = {
   compatiblePlatforms: string[];
   targets: Record<string, string[]>;
   image: string;
-  cardImage?: string;
   imagePosition?: string;
   brochureFileName: string;
   brochurePdf?: string | null;
@@ -113,8 +112,7 @@ export const panels: PanelData[] = [
       ],
       "Internal Control": ["RNase P (RPP30)"],
     },
-    image: "/panels/respiratory.png",
-    cardImage: "/Updated Panel Cards/RPP Card.png",
+    image: "/Updated Panel Cards/RPP Card.png",
     imagePosition: "center center",
     brochureFileName: "RPP_Brochure_NP.png",
     brochurePdf: null,
@@ -162,8 +160,7 @@ export const panels: PanelData[] = [
         "Parainfluenza Virus 1",
       ],
     },
-    image: "/panels/limited-respiratory.png",
-    cardImage: "/Updated Panel Cards/Limited RPP Card.png",
+    image: "/Updated Panel Cards/Limited RPP Card.png",
     imagePosition: "center 35%",
     brochureFileName: "LimitedRPP_Brochure_NP.png",
     brochurePdf: null,
@@ -230,8 +227,7 @@ export const panels: PanelData[] = [
       ],
       "Internal Control": ["RNase P (RPP30)"],
     },
-    image: "/panels/uti.png",
-    cardImage: "/Updated Panel Cards/UTI Card.png",
+    image: "/Updated Panel Cards/UTI Card.png",
     imagePosition: "center top",
     brochureFileName: "UTI_Brochure_NP.png",
     brochurePdf: null,
@@ -290,8 +286,7 @@ export const panels: PanelData[] = [
         "Ureaplasma urealyticum",
       ],
     },
-    image: "/panels/womens-health.png",
-    cardImage: "/Updated Panel Cards/Womens Health Card.png",
+    image: "/Updated Panel Cards/Womens Health Card.png",
     imagePosition: "center top",
     brochureFileName: "WH_Brochure_NP.png",
     brochurePdf: null,
@@ -345,8 +340,7 @@ export const panels: PanelData[] = [
         "Gardnerella vaginalis",
       ],
     },
-    image: "/panels/sti.png",
-    cardImage: "/Updated Panel Cards/STI Card.png",
+    image: "/Updated Panel Cards/STI Card.png",
     imagePosition: "center 30%",
     brochureFileName: "STI_Brochure_NP.png",
     brochurePdf: null,
@@ -406,8 +400,7 @@ export const panels: PanelData[] = [
         "Streptococcus pyogenes",
       ],
     },
-    image: "/panels/wound.png",
-    cardImage: "/Updated Panel Cards/Wound Card.png",
+    image: "/Updated Panel Cards/Wound Card.png",
     imagePosition: "center top",
     brochureFileName: "Wound_Brochure_NP.png",
     brochurePdf: null,
@@ -473,8 +466,7 @@ export const panels: PanelData[] = [
       ],
       "Internal Control": ["RNase P (RPP30)"],
     },
-    image: "/panels/pharyngitis.png",
-    cardImage: "/Updated Panel Cards/Pharyngitis Card.png",
+    image: "/Updated Panel Cards/Pharyngitis Card.png",
     imagePosition: "center top",
     brochureFileName: "PHN_Brochure_NP.png",
     brochurePdf: null,
