@@ -14,7 +14,7 @@ const panelLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-[#c9d8ec] bg-[#061b38] text-white">
+    <footer className="on-brand-dark mt-24 border-t border-[#c9d8ec] bg-[#061b38] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4 lg:px-8">
         <div>
           <p className="font-[var(--font-heading)] text-4xl leading-none tracking-wide text-white">SMG</p>

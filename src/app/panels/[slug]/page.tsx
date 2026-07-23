@@ -55,7 +55,8 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
 
   const theme = panelThemeStyles[panel.theme];
 
-  const quoteHref = `/?panel=${encodeURIComponent(panel.name)}&slug=${encodeURIComponent(panel.slug)}&source=panel-detail#contact`;
+  const quoteHref = `/?panel=${encodeURIComponent(panel.name)}&source=panel-detail#contact`;
+  const brochureImageSrc = panel.brochurePdf ?? panel.image;
 
   return (
     <main className="min-h-screen bg-[var(--bg)] px-4 py-8 sm:px-6 lg:px-8">
@@ -67,16 +68,21 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
 
         <section className={`overflow-hidden rounded-3xl border border-[#c7d7eb] bg-gradient-to-r ${theme.surface}`}>
           <div className="grid gap-7 p-6 md:grid-cols-[1fr_1.2fr] md:p-10">
-            <div className="relative min-h-[290px] overflow-hidden rounded-2xl border border-white/40 bg-white/55">
-              <Image src={panel.image} alt={panel.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 45vw" />
+            <div className="rounded-2xl border border-white/40 bg-white/75 p-3">
+              <div className="relative aspect-[3/4] w-full">
+                <Image
+                  src={brochureImageSrc}
+                  alt={`${panel.name} brochure`}
+                  fill
+                  className="rounded-xl object-contain"
+                  sizes="(max-width: 768px) 100vw, 45vw"
+                />
+              </div>
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1e4fd6]">{panel.targetCount} Target Multiplex Real-Time PCR Assay</p>
               <h1 className="mt-3 text-4xl font-semibold leading-[0.95] text-[#0f2648] sm:text-5xl lg:text-6xl">{panel.name}</h1>
               <p className="mt-4 text-base leading-8 text-[#2f4a69]">{panel.clinicalOverview}</p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <span className={`rounded-full px-4 py-2 text-sm font-semibold ${theme.badge}`}>{panel.pricePerReaction} per reaction</span>
-              </div>
             </div>
           </div>
         </section>
@@ -91,7 +97,6 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
                 ["Compatible Instruments", panel.compatiblePlatforms.join(", ")],
                 ["Sample Type", panel.sampleType],
                 ["Product Code", panel.productCode],
-                ["Price Per Reaction", panel.pricePerReaction],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-xl border border-[#d7e2ef] bg-[#f7faff] p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#1e4fd6]">{label}</p>

@@ -63,7 +63,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
       <SiteHeader />
 
       <main>
-        <section className="hero-dna relative overflow-hidden bg-[#07224a] text-white">
+        <section className="hero-dna on-brand-dark relative overflow-hidden bg-[#07224a] text-white">
           <div className="relative mx-auto grid w-full max-w-7xl gap-12 px-4 py-22 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-30">
             <div className="max-w-3xl reveal">
               <p className="font-[var(--font-heading)] text-[0.72rem] uppercase tracking-[0.35em] text-[#7dd9d1]">Atlanta, Georgia</p>
@@ -79,7 +79,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
                   href={selectedPanel ? `/?panel=${encodeURIComponent(selectedPanel)}&slug=${encodeURIComponent(selectedPanelSlug)}&source=hero#contact` : "/?source=hero#contact"}
                   label="Request Pricing"
                   variant="primary"
-                  className="!bg-[#1fb0a8] hover:!bg-[#17938d]"
+                  className="!bg-[#0b6f74] hover:!bg-[#095f63]"
                   eventName="Click Request Pricing"
                   eventPayload={{ panelName: selectedPanel || null, panelSlug: selectedPanelSlug || null, sourcePage: "homepage", buttonLocation: "hero-request-pricing" }}
                 />
@@ -210,7 +210,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         <section id="contact" className="section-pad mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="card overflow-hidden">
             <div className="grid lg:grid-cols-[1fr_1.2fr]">
-              <div className="bg-[#07224a] p-8 text-white sm:p-10">
+              <div className="on-brand-dark bg-[#07224a] p-8 text-white sm:p-10">
                 <p className="text-xs uppercase tracking-[0.25em] text-[#80d9d2]">Contact SMG</p>
                 <h2 className="mt-3 font-[var(--font-heading)] text-4xl">Start Your Lab Conversation</h2>
                 <p className="mt-4 text-white/85">

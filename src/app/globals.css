@@ -6,12 +6,18 @@
   --surface-muted: #edf3fb;
   --text: #0f2648;
   --text-soft: #3f5673;
+  --text-link: #1e4fd6;
   --line: #d6e1ef;
+  --line-strong: #c8d8eb;
   --navy: #07224a;
   --teal: #0f8c8f;
   --blue: #1e4fd6;
   --purple: #5a27a8;
   --green: #41a952;
+  --on-dark: #f5f9ff;
+  --on-dark-soft: #d6e4fb;
+  --on-dark-link: #a9d7ff;
+  --focus-ring: #7dd9d1;
   --radius-lg: 1.25rem;
   --shadow-soft: 0 15px 40px rgba(7, 34, 74, 0.12);
   --shadow-card: 0 8px 24px rgba(11, 37, 73, 0.09);
@@ -25,7 +31,13 @@
     --surface-muted: #113058;
     --text: #ecf3ff;
     --text-soft: #bfd0e8;
+    --text-link: #9fcbff;
     --line: #204875;
+    --line-strong: #2e5788;
+    --on-dark: #f5f9ff;
+    --on-dark-soft: #d6e4fb;
+    --on-dark-link: #b4dcff;
+    --focus-ring: #9be7df;
     --shadow-soft: 0 15px 40px rgba(2, 8, 20, 0.5);
   }
 }
@@ -47,6 +59,81 @@ body {
     radial-gradient(900px 500px at 0% 0%, rgba(15, 140, 143, 0.14), transparent 60%),
     var(--bg);
   color: var(--text);
+}
+
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+:where(input, textarea, select) {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+
+@layer utilities {
+  .on-brand-dark {
+    color: var(--on-dark);
+  }
+
+  .on-brand-dark :where(h1, h2, h3, h4, h5, h6, p, li, label) {
+    color: inherit;
+  }
+
+  .on-brand-dark :where(.text-white\/85, .text-white\/88, .text-white\/90) {
+    color: var(--on-dark-soft);
+  }
+
+  .on-brand-dark :where(.text-\[\#7dd9d1\], .text-\[\#80d9d2\], .text-\[\#93e5de\]) {
+    color: #9ff0e8;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .text-\[\#0f2648\],
+  .text-\[\#123052\],
+  .text-\[\#2f4a69\],
+  .text-\[\#3f5673\],
+  .text-\[\#385271\],
+  .text-\[\#3d5a7d\],
+  .text-\[\#26415f\] {
+    color: var(--text) !important;
+  }
+
+  .text-\[\#1e4fd6\],
+  .hover\:text-\[\#163c9f\]:hover,
+  .hover\:text-\[\#0f2648\]:hover {
+    color: var(--text-link) !important;
+  }
+
+  .bg-\[\#edf4ff\],
+  .bg-\[\#f3f8ff\],
+  .bg-\[\#f7faff\],
+  .bg-\[\#f8fbff\],
+  .bg-\[\#eff5fe\],
+  .bg-white {
+    background-color: var(--surface-muted) !important;
+  }
+
+  .border-\[\#c6d6eb\],
+  .border-\[\#c7d7eb\],
+  .border-\[\#c8d7eb\],
+  .border-\[\#c8d8eb\],
+  .border-\[\#c9d8eb\],
+  .border-\[\#d7e2ef\],
+  .border-\[\#d7e2f0\],
+  .border-\[\#d8e2ef\],
+  .border-\[\#d8e2f0\] {
+    border-color: var(--line-strong) !important;
+  }
+
+  .hover\:bg-\[\#edf4ff\]:hover,
+  .hover\:bg-\[\#eff5fe\]:hover,
+  .hover\:bg-\[\#f2f7ff\]:hover,
+  .hover\:bg-\[\#f3f8ff\]:hover {
+    background-color: #19385f !important;
+  }
 }
 
 h1,

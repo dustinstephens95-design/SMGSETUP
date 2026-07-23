@@ -50,7 +50,7 @@ export function SiteHeader() {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/15 bg-[#07224a]/90 backdrop-blur-lg">
+    <header className="on-brand-dark sticky top-0 z-50 border-b border-white/15 bg-[#07224a]/90 backdrop-blur-lg">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link
           href="/"
@@ -101,7 +101,7 @@ export function SiteHeader() {
       </div>
 
       {isMobileMenuOpen ? (
-        <div id="mobile-main-nav" className="border-t border-white/15 bg-[#07224a] px-4 py-4 lg:hidden">
+        <div id="mobile-main-nav" className="on-brand-dark border-t border-white/15 bg-[#07224a] px-4 py-4 lg:hidden">
           <nav className="flex flex-col gap-2" aria-label="Mobile navigation">
             {navItems.map((item) => (
               <Link
