@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { trackEvent } from "@/lib/analytics";
 
 type ContactFormProps = {
@@ -14,8 +14,11 @@ type FormState = {
   company: string;
   email: string;
   phone: string;
+  state: string;
+  instrument: string;
   panel: string;
-  message: string;
+  monthlyVolume: string;
+  comments: string;
   website: string;
 };
 
@@ -24,12 +27,16 @@ const initialState: FormState = {
   company: "",
   email: "",
   phone: "",
+  state: "",
+  instrument: "",
   panel: "",
-  message: "",
+  monthlyVolume: "",
+  comments: "",
   website: "",
 };
 
 export function ContactForm({ defaultPanel = "" }: ContactFormProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
@@ -65,9 +72,12 @@ export function ContactForm({ defaultPanel = "" }: ContactFormProps) {
     if (!formState.email.trim()) return "Email is required.";
     if (!/^\S+@\S+\.\S+$/.test(formState.email.trim())) return "Please enter a valid email address.";
     if (!formState.phone.trim()) return "Phone is required.";
+    if (!formState.state.trim()) return "State is required.";
+    if (!formState.instrument.trim()) return "Instrument is required.";
     if (!formState.panel.trim()) return "Panel or Service of Interest is required.";
-    if (!formState.message.trim()) return "Message is required.";
-    if (formState.message.trim().length < 10) return "Please provide a little more detail in your message.";
+    if (!formState.monthlyVolume.trim()) return "Estimated Monthly Volume is required.";
+    if (!formState.comments.trim()) return "Comments are required.";
+    if (formState.comments.trim().length < 10) return "Please provide a little more detail in your comments.";
 
     return null;
   };
@@ -96,7 +106,15 @@ export function ContactForm({ defaultPanel = "" }: ContactFormProps) {
 
     try {
       const payload = {
-        ...formState,
+        name: formState.name,
+        company: formState.company,
+        email: formState.email,
+        phone: formState.phone,
+        state: formState.state,
+        instrument: formState.instrument,
+        panel: formState.panel,
+        monthlyVolume: formState.monthlyVolume,
+        message: formState.comments,
         sourcePage,
         panelSlug: selectedPanelSlug,
         campaignSource,
@@ -128,6 +146,10 @@ export function ContactForm({ defaultPanel = "" }: ContactFormProps) {
         sourcePage: sourcePage || pathname,
         buttonLocation: "contact-form",
       });
+
+      router.push(
+        `/request-pricing/confirmation?panel=${encodeURIComponent(selectedPanelFromQuery || formState.panel)}&source=${encodeURIComponent(sourcePage || pathname)}`
+      );
     } catch {
       setStatusType("error");
       setStatusMessage("Unexpected submission error. Please try again.");
@@ -194,6 +216,29 @@ export function ContactForm({ defaultPanel = "" }: ContactFormProps) {
         />
       </label>
 
+      <label className="text-sm font-medium text-[#123052]">
+        State
+        <input
+          required
+          value={formState.state}
+          onChange={(event) => updateField("state", event.target.value)}
+          className="mt-2 w-full rounded-xl border border-[#c9d8eb] px-4 py-3 text-sm outline-none focus:border-[#1e4fd6]"
+          name="state"
+          autoComplete="address-level1"
+        />
+      </label>
+
+      <label className="text-sm font-medium text-[#123052]">
+        Instrument
+        <input
+          required
+          value={formState.instrument}
+          onChange={(event) => updateField("instrument", event.target.value)}
+          className="mt-2 w-full rounded-xl border border-[#c9d8eb] px-4 py-3 text-sm outline-none focus:border-[#1e4fd6]"
+          name="instrument"
+        />
+      </label>
+
       <label className="text-sm font-medium text-[#123052] sm:col-span-2">
         Panel or Service of Interest
         <input
@@ -206,13 +251,25 @@ export function ContactForm({ defaultPanel = "" }: ContactFormProps) {
       </label>
 
       <label className="text-sm font-medium text-[#123052] sm:col-span-2">
-        Message
+        Estimated Monthly Volume
+        <input
+          required
+          value={formState.monthlyVolume}
+          onChange={(event) => updateField("monthlyVolume", event.target.value)}
+          className="mt-2 w-full rounded-xl border border-[#c9d8eb] px-4 py-3 text-sm outline-none focus:border-[#1e4fd6]"
+          name="monthlyVolume"
+          placeholder="e.g. 300 tests per month"
+        />
+      </label>
+
+      <label className="text-sm font-medium text-[#123052] sm:col-span-2">
+        Comments
         <textarea
           required
-          value={formState.message}
-          onChange={(event) => updateField("message", event.target.value)}
+          value={formState.comments}
+          onChange={(event) => updateField("comments", event.target.value)}
           className="mt-2 min-h-36 w-full rounded-xl border border-[#c9d8eb] px-4 py-3 text-sm outline-none focus:border-[#1e4fd6]"
-          name="message"
+          name="comments"
         />
       </label>
 

@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BadgeCheck, ClipboardList, Download, FlaskConical, Microscope, Phone, Send } from "lucide-react";
+import { PanelCard } from "@/components/panel-card";
 import { PanelViewTracker } from "@/components/panel-view-tracker";
+import { SectionHeading } from "@/components/section-heading";
 import { TrackedLink } from "@/components/tracked-link";
 import { getPanelWithBrochureBySlug, getPanelsWithBrochures } from "@/lib/brochures";
 import { panelThemeStyles } from "@/lib/panels";
@@ -26,13 +28,13 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
   return {
     title: `${panel.name} | Stephens Molecular Group`,
-    description: panel.clinicalOverview,
+    description: panel.metaDescription ?? panel.clinicalOverview,
     alternates: {
       canonical: `/panels/${panel.slug}`,
     },
     openGraph: {
       title: `${panel.name} | Stephens Molecular Group`,
-      description: panel.clinicalOverview,
+      description: panel.metaDescription ?? panel.clinicalOverview,
       url: `/panels/${panel.slug}`,
       type: "website",
       images: [
@@ -57,6 +59,7 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
 
   const quoteHref = `/?panel=${encodeURIComponent(panel.name)}&source=panel-detail#contact`;
   const panelCardImageSrc = panel.image;
+  const relatedPanels = getPanelsWithBrochures().filter((relatedPanel) => relatedPanel.slug !== panel.slug).slice(0, 3);
 
   return (
     <main className="min-h-screen bg-[var(--bg)] px-4 py-8 sm:px-6 lg:px-8">
@@ -75,17 +78,87 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
                   alt={`SMG ${panel.name} card`}
                   width={1200}
                   height={1600}
+                  priority
                   className="h-auto w-full rounded-xl object-contain"
                   sizes="(max-width: 768px) calc(100vw - 3rem), (max-width: 1024px) 42vw, 520px"
                 />
               </div>
             </div>
             <div className="panel-mobile-hero-content">
-              <p className="panel-mobile-hero-subtitle text-xs font-semibold uppercase tracking-[0.2em] text-[#1e4fd6]">{panel.targetCount} Target Multiplex Real-Time PCR Assay</p>
+              <p className="panel-mobile-hero-subtitle text-xs font-semibold uppercase tracking-[0.2em] text-[#1e4fd6]">
+                {panel.subtitle ?? `${panel.targetCount} Target Multiplex Real-Time PCR Assay`}
+              </p>
               <h1 className="panel-mobile-hero-title mt-3 text-4xl font-semibold leading-[0.95] text-[#0f2648] sm:text-5xl lg:text-6xl">{panel.name}</h1>
               <p className="panel-mobile-hero-description mt-4 text-base leading-8 text-[#2f4a69]">{panel.clinicalOverview}</p>
             </div>
           </div>
+        </section>
+
+        <section className="grid gap-6 lg:grid-cols-[1.1fr_0.85fr]">
+          <article className="card p-6 sm:p-8">
+            <h2 className="mb-4 text-2xl font-semibold text-[#0f2648]">Clinical Overview</h2>
+            <p className="text-sm leading-7 text-[#385271]">
+              {panel.clinicalOverview}
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {[
+                ["Clinical Applications", panel.clinicalApplications[0]],
+                ["Compatible Instruments", panel.compatiblePlatforms[0]],
+                ["Validation Support Available", "Planning materials and implementation support are available."],
+                ["Custom Panel Options", "Discuss panel fit, implementation scope, and workflow needs with SMG."],
+                ["Implementation Assistance", "SMG supports launch planning and go-live readiness."],
+                ["Technical Support", "Responsive troubleshooting and project support are available."],
+              ].map(([title, value]) => (
+                <div key={title} className="rounded-xl border border-[#d7e2ef] bg-[#f8fbff] p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#1e4fd6]">{title}</p>
+                  <p className="mt-2 text-sm leading-7 text-[#123052]">{value}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <aside className="card p-6 sm:p-8 lg:sticky lg:top-24">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1e4fd6]">Request Pricing</p>
+            <h2 className="mt-3 text-3xl font-semibold text-[#0f2648]">Talk with SMG about this panel</h2>
+            <p className="mt-4 text-sm leading-7 text-[#3f5673]">
+              Get pricing, brochure access, and implementation support for the {panel.name}.
+            </p>
+            <div className="mt-6 space-y-3">
+              <TrackedLink
+                href={quoteHref}
+                eventName="Click Request Pricing"
+                payload={{ panelName: panel.name, panelSlug: panel.slug, sourcePage: "panel-detail", buttonLocation: "panel-detail-sticky-request-pricing" }}
+                className={`block rounded-xl px-4 py-3 text-center text-sm font-semibold ${theme.button}`}
+              >
+                Request Pricing
+              </TrackedLink>
+              <TrackedLink
+                href="mailto:dustin@stephensmolecular.com"
+                eventName="Click Email"
+                payload={{ panelName: panel.name, panelSlug: panel.slug, sourcePage: "panel-detail", buttonLocation: "panel-detail-sticky-contact-sales" }}
+                className="block rounded-xl border border-[#c8d7eb] px-4 py-3 text-center text-sm font-semibold text-[#0f2648] hover:bg-[#edf4ff]"
+              >
+                Contact Sales
+              </TrackedLink>
+              {panel.brochurePdf ? (
+                <TrackedLink
+                  href={panel.brochurePdf}
+                  download={panel.brochureFileName}
+                  eventName="Download Brochure"
+                  payload={{ panelName: panel.name, panelSlug: panel.slug, sourcePage: "panel-detail", buttonLocation: "panel-detail-sticky-brochure" }}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#c8d7eb] px-4 py-3 text-sm font-semibold text-[#0f2648] hover:bg-[#edf4ff]"
+                  ariaLabel={`Download ${panel.name} brochure`}
+                >
+                  <Download size={15} /> Download Brochure
+                </TrackedLink>
+              ) : null}
+            </div>
+            <div className="mt-6 space-y-2 text-sm text-[#385271]">
+              <p className="rounded-lg border border-[#d7e2f0] bg-[#f8fbff] px-3 py-2">Product Code: {panel.productCode}</p>
+              <p className="rounded-lg border border-[#d7e2f0] bg-[#f8fbff] px-3 py-2">Compatible Platforms: {panel.compatiblePlatforms.length}</p>
+              <p className="rounded-lg border border-[#d7e2f0] bg-[#f8fbff] px-3 py-2">Validation support available</p>
+            </div>
+          </aside>
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
@@ -223,20 +296,33 @@ export default async function PanelDetailPage({ params }: { params: Promise<Para
               payload={{ panelName: panel.name, panelSlug: panel.slug, sourcePage: "panel-detail", buttonLocation: "panel-detail-bottom-email" }}
               className="rounded-xl border border-[#c8d7eb] px-5 py-3 text-sm font-semibold text-[#0f2648] hover:bg-[#edf4ff]"
             >
-              Contact SMG
+              Contact Sales
             </TrackedLink>
             {panel.brochurePdf ? (
               <TrackedLink
                 href={panel.brochurePdf}
-                target="_blank"
-                rel="noopener noreferrer"
+                download={panel.brochureFileName}
                 eventName="Download Brochure"
                 payload={{ panelName: panel.name, panelSlug: panel.slug, sourcePage: "panel-detail", buttonLocation: "panel-detail-brochure" }}
                 className="inline-flex items-center gap-2 rounded-xl border border-[#c8d7eb] px-5 py-3 text-sm font-semibold text-[#0f2648] hover:bg-[#edf4ff]"
+                ariaLabel={`Download ${panel.name} brochure`}
               >
                 <Download size={15} /> Download Brochure
               </TrackedLink>
             ) : null}
+          </div>
+        </section>
+
+        <section className="section-pad mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Related Panels"
+            title="Other SMG Panels Worth Reviewing"
+            description="Compare neighboring panels to better match target coverage, workflow needs, and laboratory planning goals."
+          />
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {relatedPanels.map((relatedPanel) => (
+              <PanelCard key={relatedPanel.slug} panel={relatedPanel} />
+            ))}
           </div>
         </section>
       </div>

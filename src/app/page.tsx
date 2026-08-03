@@ -11,15 +11,16 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { TrackedLink } from "@/components/tracked-link";
 import { getPanelsWithBrochures } from "@/lib/brochures";
+import { instrumentCards, startupSteps } from "@/lib/marketing";
 import { services } from "@/lib/services";
 
 const stats = [
-  "7 Molecular Panels",
+  "7+ Diagnostic Panels",
+  "100+ Detectable Targets",
+  "Custom Panel Design",
+  "Validation Support Available",
   "Laboratory Consulting",
-  "Validation Support",
-  "Technical Support",
   "Workflow Optimization",
-  "Nationwide Support",
 ];
 
 const reasons = [
@@ -144,7 +145,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         <section id="why-choose" className="section-pad mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionViewTracker sectionId="why-choose" eventName="View Services" />
           <SectionHeading
-            eyebrow="Why Choose SMG"
+            eyebrow="Why Choose Stephens Molecular Group"
             title="Support Built Around Laboratory Workflow, Validation, and Implementation"
             description="Every engagement is structured to help laboratories move faster with confidence while keeping the focus on product selection, implementation, and operational support."
           />
@@ -165,7 +166,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
 
         <section id="panels" className="section-pad mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            eyebrow="Molecular Panels"
+            eyebrow="Featured Panels"
             title="Multiplex Panels for Clinical Decision Support"
             description="Each panel mirrors brochure-defined targets, compatible instruments, and per-reaction pricing to help your laboratory make fast procurement and implementation decisions."
           />
@@ -173,6 +174,66 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
             {panels.map((panel) => (
               <PanelCard key={panel.slug} panel={panel} />
             ))}
+          </div>
+        </section>
+
+        <section className="section-pad mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Compatible Instruments"
+            title="Platforms That Fit Real Laboratory Workflows"
+            description="SMG supports implementation planning around common real-time PCR systems so your laboratory can align assay choice, staffing, and workflow with confidence."
+          />
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {instrumentCards.slice(0, 6).map((instrument) => (
+              <div key={instrument.name} className="card flex items-start gap-4 p-5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_34px_rgba(11,37,73,0.14)]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#edf4ff] text-[#1e4fd6]">
+                  <span className="text-sm font-semibold">{instrument.badge.slice(0, 1)}</span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-[#0f2648]">{instrument.name}</h3>
+                  <p className="mt-2 text-sm leading-7 text-[#3f5673]">{instrument.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="section-pad mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="section-shell p-8 sm:p-10">
+            <SectionHeading
+              eyebrow="Workflow"
+              title="A Clear Launch Path for Molecular Laboratories"
+              description="The process stays focused and predictable so your team can move from selection to go-live without unnecessary friction."
+            />
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {startupSteps.slice(0, 4).map((step, index) => (
+                <div key={step.title} className="rounded-2xl border border-[#d7e2ef] bg-white p-5 shadow-[0_12px_24px_rgba(11,37,73,0.06)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#1e4fd6]">Step {index + 1}</p>
+                  <h3 className="mt-3 text-xl font-semibold text-[#0f2648]">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-[#3f5673]">{step.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section-pad mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="card overflow-hidden bg-[#07224a] text-white">
+            <div className="grid gap-6 p-8 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#9ff0e8]">Ready to Move Forward</p>
+                <h2 className="mt-3 text-4xl font-semibold leading-tight">Ready to Build or Expand Your Molecular Laboratory?</h2>
+                <p className="mt-4 max-w-2xl text-base leading-8 text-white/85">
+                  Request pricing, review compatible instruments, and get implementation support that keeps the process practical and professional.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3 lg:justify-end">
+                <CTAButton href="/?panel=General Inquiry&source=home-cta#contact" label="Request Pricing" variant="primary" className="!bg-[#0b6f74] hover:!bg-[#095f63]" eventName="Click Request Pricing" eventPayload={{ panelName: "General Inquiry", panelSlug: null, sourcePage: "homepage", buttonLocation: "home-cta-request-pricing" }} />
+                <TrackedLink href="mailto:dustin@stephensmolecular.com" eventName="Click Email" payload={{ panelName: null, panelSlug: null, sourcePage: "homepage", buttonLocation: "home-cta-contact-sales" }} className="inline-flex min-h-11 items-center rounded-xl border border-white/45 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-white transition hover:bg-white/10">
+                  Contact SMG
+                </TrackedLink>
+              </div>
+            </div>
           </div>
         </section>
 

@@ -13,6 +13,7 @@ type TrackedLinkProps = {
   target?: string;
   rel?: string;
   ariaLabel?: string;
+  download?: string | boolean;
 };
 
 function isExternalHref(href: string) {
@@ -28,21 +29,22 @@ export function TrackedLink({
   target,
   rel,
   ariaLabel,
+  download,
 }: TrackedLinkProps) {
   const handleClick = () => {
     trackEvent(eventName, payload);
   };
 
-  if (isExternalHref(href)) {
+  if (isExternalHref(href) || download !== undefined) {
     return (
-      <a href={href} target={target} rel={rel} className={className} aria-label={ariaLabel} onClick={handleClick}>
+      <a href={href} target={target} rel={rel} download={download} className={className} aria-label={ariaLabel} onClick={handleClick}>
         {children}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={className} aria-label={ariaLabel} onClick={handleClick}>
+    <Link href={href} className={className} aria-label={ariaLabel} onClick={handleClick} download={download}>
       {children}
     </Link>
   );

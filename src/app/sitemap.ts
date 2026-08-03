@@ -11,6 +11,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  const staticRoutes = [
+    "/privacy",
+    "/compatible-instruments",
+    "/validation-services",
+    "/build-your-molecular-laboratory",
+    "/resources",
+    "/compare-panels",
+    "/faq",
+    "/solutions",
+    "/request-pricing/confirmation",
+  ].map((path) => ({
+    url: `${SITE_URL}${path}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
   return [
     {
       url: SITE_URL,
@@ -24,6 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.4,
     },
+    ...staticRoutes,
     ...panelRoutes,
   ];
 }

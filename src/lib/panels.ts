@@ -6,11 +6,13 @@ export type PanelData = {
   shortName: string;
   theme: PanelTheme;
   targetCount: number;
+  subtitle?: string;
   pricePerReaction: string;
   productCode: string;
   technology: string;
   sampleType: string;
   clinicalOverview: string;
+  metaDescription?: string;
   clinicalApplications: string[];
   keyFeatures: string[];
   compatiblePlatforms: string[];
@@ -472,6 +474,73 @@ export const panels: PanelData[] = [
     brochurePdf: null,
     description:
       "21-target pharyngitis panel delivering broad viral and bacterial detection with strong clinical utility.",
+  },
+  {
+    slug: "abr-panel",
+    name: "ABR Panel",
+    shortName: "ABR",
+    theme: "blue",
+    targetCount: 15,
+    subtitle: "15-Target Multiplex Real-Time PCR Assay",
+    pricePerReaction: "Contact SMG",
+    productCode: "SMG-ABR-1501",
+    technology: "Multiplex real-time PCR",
+    sampleType: "Contact SMG for specimen and workflow details.",
+    clinicalOverview:
+      "The SMG ABR Panel is a 15-target multiplex real-time PCR assay designed for the qualitative detection of clinically significant antimicrobial resistance markers. The assay supports rapid identification of major resistance mechanisms associated with multidrug-resistant organisms and may help laboratories support antimicrobial stewardship and informed clinical decision-making.",
+    metaDescription:
+      "Explore the SMG 15-target multiplex real-time PCR ABR Panel for detection of clinically significant antimicrobial resistance markers.",
+    clinicalApplications: [
+      "Hospital laboratories",
+      "Reference laboratories",
+      "Outpatient and ambulatory settings",
+      "Antimicrobial stewardship programs",
+      "Clinical microbiology workflows",
+    ],
+    keyFeatures: [
+      "15 clinically relevant targets",
+      "Multiplex real-time PCR",
+      "Broad antimicrobial resistance marker coverage",
+      "Internal control included",
+      "Validation materials and support available",
+      "Technical implementation support available",
+    ],
+    compatiblePlatforms: [
+      "Thermo Fisher QuantStudio 5",
+      "Thermo Fisher QuantStudio 12 Flex",
+      "Other compatible real-time PCR systems",
+    ],
+    targets: {
+      "Antimicrobial Resistance Targets": [
+        "Candida auris",
+        "CTX-M-1/2/9/8",
+        "dfrA1",
+        "dfrA5",
+        "KPC-3",
+        "mecA",
+        "NDM",
+        "qnrA",
+        "qnrB",
+        "qnrS",
+        "RNase P (RPP30)",
+        "sul1",
+        "sul2",
+        "vanA",
+        "vanB",
+      ],
+      "Associated CTX-M Variants": [
+        "blaCTX-M-3",
+        "blaCTX-M-9",
+        "blaCTX-M-35",
+        "blaCTX-M-63",
+      ],
+    },
+    image: "/Updated Panel Cards/ABR Card.png",
+    imagePosition: "center center",
+    brochureFileName: "ABR_Brochure_NP.png",
+    brochurePdf: null,
+    description:
+      "Detect clinically significant antimicrobial resistance markers using a 15-target multiplex real-time PCR assay.",
   },
 ];
 

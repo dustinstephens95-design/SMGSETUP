@@ -8,8 +8,18 @@ const panelLinks = [
   { label: "UTI", href: "/panels/uti" },
   { label: "Women's Health", href: "/panels/womens-health" },
   { label: "STI", href: "/panels/sti" },
+  { label: "ABR Panel", href: "/panels/abr-panel" },
   { label: "Wound", href: "/panels/wound" },
   { label: "Pharyngitis", href: "/panels/pharyngitis" },
+];
+
+const resourceLinks = [
+  { label: "Resources", href: "/resources" },
+  { label: "Compare Panels", href: "/compare-panels" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Compatible Instruments", href: "/compatible-instruments" },
+  { label: "Validation Services", href: "/validation-services" },
+  { label: "Solutions", href: "/solutions" },
 ];
 
 export function SiteFooter() {
@@ -41,6 +51,13 @@ export function SiteFooter() {
             <li><Link href="/#about">About</Link></li>
             <li><Link href="/#contact">Contact</Link></li>
             <li><Link href="/privacy">Privacy</Link></li>
+            {resourceLinks.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="hover:text-white">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
