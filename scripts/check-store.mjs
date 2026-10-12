@@ -17,9 +17,9 @@ assert.equal(categories.length,8);
 for(const c of categories){assert.ok(products.some(p=>p.category===c.name));assert.ok(fs.existsSync('public'+c.image));}
 for(const p of products)assert.ok(categories.some(c=>c.name===p.category),p.sku);
 const {checkoutItems,stripeStore}=load('src/lib/stripe-store.ts',{'@/lib/store-products':catalog});
-assert.equal(products.length,32);
-assert.equal(new Set(products.map(p=>p.sku)).size,32);
-assert.equal(new Set(products.map(p=>p.slug)).size,32);
+assert.equal(products.length,29);
+assert.equal(new Set(products.map(p=>p.sku)).size,29);
+assert.equal(new Set(products.map(p=>p.slug)).size,29);
 for(const p of products) {
   assert.ok(Number.isSafeInteger(p.unitsPerCase)&&p.unitsPerCase>0);
   assert.ok(Number.isSafeInteger(p.minCases)&&p.minCases>0);
@@ -38,7 +38,7 @@ assert.equal(products.find(p=>p.supplierSku==='CRFT200-TP-9').unitsPerCase,4800)
 assert.equal(products.find(p=>p.supplierSku==='CRPC04-3-TP-FS').unitsPerCase,100);
 assert.equal(products.find(p=>p.supplierSku==='CRDP-SC-9').orderUnit,'bag');
 const cart=Object.fromEntries(products.filter(p=>!p.quoteOnly).map(p=>[p.sku,p.minCases]));
-assert.equal(checkoutItems(cart).length,31);
+assert.equal(checkoutItems(cart).length,28);
 assert.throws(()=>checkoutItems({}),/empty/);
 assert.throws(()=>checkoutItems({'unlisted-sku':10}),/Unknown/);
 assert.throws(()=>checkoutItems({[products[0].sku]:'10'}),/whole/);
@@ -48,4 +48,9 @@ assert.throws(()=>checkoutItems({[first.sku]:10}),/12/);first.minCases=min;
 const prior=process.env.STRIPE_SECRET_KEY;
 process.env.STRIPE_SECRET_KEY='sk_live_placeholder';assert.throws(stripeStore,/test key/);
 if(prior===undefined)delete process.env.STRIPE_SECRET_KEY;else process.env.STRIPE_SECRET_KEY=prior;
-console.log('Validated 32 listings, 31 purchasable sandbox products, local images, catalog-derived prices, pack sizes, per-product minimums and rejected invalid carts/live keys.');
+console.log('Validated 29 listings, 28 purchasable sandbox products, local images, catalog-derived prices, pack sizes, per-product minimums and rejected invalid carts/live keys.');
+
+assert.equal(Object.keys(catalog.legacyProductRedirects).length,3);
+for(const [old,target] of Object.entries(catalog.legacyProductRedirects)){assert.ok(!products.some(p=>p.slug===old));assert.ok(products.some(p=>p.slug===target));}
+assert.equal(new Set(products.filter(p=>p.supplierSku).map(p=>p.supplierSku)).size,28);
+assert.equal(products.filter(p=>p.image.startsWith("/products/smg/")).length,25);
