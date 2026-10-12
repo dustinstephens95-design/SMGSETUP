@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPanelsWithBrochures } from "@/lib/brochures";
+import { storeProducts } from "@/lib/store-products";
 
 const SITE_URL = "https://stephensmolecular.com";
 
@@ -13,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticRoutes = [
     "/privacy",
+    "/shop",
     "/compatible-instruments",
     "/validation-services",
     "/build-your-molecular-laboratory",
@@ -43,5 +45,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...staticRoutes,
     ...panelRoutes,
+    ...storeProducts.map((product) => ({
+      url: `${SITE_URL}/shop/${product.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
   ];
 }

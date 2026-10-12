@@ -6,6 +6,19 @@ Current build includes:
 - Panel-level attribution for pricing/contact requests
 - Privacy-safe analytics events
 - Conditional brochure download readiness
+- Laboratory supplies shop with 28 selected additions and four existing listings
+
+## Laboratory supplies shop
+
+The catalog lives in `src/lib/store-products.ts`. Each product owns its sale pack, physical piece count, minimum quantity, price and image. Categories and search are derived from the catalog. The cart and server-side Checkout validation use the same catalog.
+
+Prices follow the October 12 SMG revised pricing draft and include a planning freight allowance. The three excluded items (15 mL conical tubes, 50 mL conical tubes and 50 mL reservoirs) are not in the catalog. Existing listings keep their established SKU and route, with prices updated to the approved draft. Cotaus catalog graphics are local under `public/products/cotaus`; `SOURCES.md` records provenance. Representative illustrations do not establish certification or fit.
+
+The 2 mL cryovial is listed with a packaging-confirmation contact action instead of checkout while its supplier pack size is unresolved. Silicone mats are sold as bags of 50, not assumed cartons. All listings state a 6–7-week lead time.
+
+Stripe checkout remains **sandbox only**, accepts test keys only, and builds inline USD prices from the server catalog. It does not trust client-supplied prices. No live payments or fulfillment are enabled by this catalog update. Final freight, product specifications and live tax/fulfillment configuration must be resolved before launch.
+
+Run `node scripts/check-store.mjs` for catalog/checkout validation, followed by `npm run build`.
 
 ## Tech Stack
 - Next.js (App Router)

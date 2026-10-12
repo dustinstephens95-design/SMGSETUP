@@ -1,11 +1,5 @@
 import Stripe from "stripe";
-
-export const sandboxPrices: Record<string, { id: string; cents: number }> = {
-  "SMG-DWP-2200-050": { id: "price_1UNd7s2YwJgFagRqWLSAeGHS", cents: 14900 },
-  "SMG-MRS-0096-050": { id: "price_1UNdAD2YwJgFagRqLxpt4Ff1", cents: 17500 },
-  "SMG-ELP-0500-050": { id: "price_1UNdBO2YwJgFagRqLz7bs7e8", cents: 14900 },
-  "SMG-PCR-0384-050": { id: "price_1UNdDJ2YwJgFagRqFRypsSqh", cents: 19900 },
-};
+import { storeProducts } from "@/lib/store-products";
 export function stripeStore() {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key || !/^(rk|sk)_test_/.test(key)) throw new Error("Sandbox checkout requires a test key.");
@@ -14,13 +8,27 @@ export function stripeStore() {
 export function checkoutItems(cart: unknown) {
   if (!cart || typeof cart !== "object" || Array.isArray(cart)) throw new Error("Invalid cart.");
   const entries = Object.entries(cart);
-  if (!entries.length || entries.length > 4) throw new Error("Your cart is empty or invalid.");
+  if (!entries.length || entries.length > storeProducts.length) throw new Error("Your cart is empty or invalid.");
   let cents = 0;
   const items = entries.map(([sku, quantity]) => {
-    const product = Object.hasOwn(sandboxPrices, sku) ? sandboxPrices[sku] : undefined;
-    if (!product || typeof quantity !== "number" || !Number.isSafeInteger(quantity) || quantity < 10 || quantity > 4999) throw new Error("Enter 10–4999 whole cases per product.");
-    cents += product.cents * quantity;
-    return { price: product.id, quantity };
+    const product = storeProducts.find(p => p.sku === sku);
+    if (!product) throw new Error("Unknown product.");
+    if (product.quoteOnly) throw new Error("Contact SMG to confirm packaging for this product before ordering.");
+    if (typeof quantity !== "number" || !Number.isSafeInteger(quantity) || quantity < product.minCases || quantity > 4999) throw new Error(`Enter ${product.minCases}–4999 whole ${product.orderUnitPlural} for ${product.title}.`);
+    const unitAmount = Math.round(product.price * 100);
+    cents += unitAmount * quantity;
+    return {
+      price_data: {
+        currency: "usd",
+        unit_amount: unitAmount,
+        product_data: {
+          name: product.title,
+          description: `${product.packLabel} per ${product.orderUnit}. Lead time approximately 6–7 weeks.`,
+          metadata: { sku: product.sku },
+        },
+      },
+      quantity,
+    };
   });
   if (cents > 99999999) throw new Error("Please contact SMG for an order this large.");
   return items;

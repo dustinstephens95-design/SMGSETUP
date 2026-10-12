@@ -1,0 +1,47 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import { createRequire } from 'node:module';
+const require=createRequire(import.meta.url);
+function load(path,imports={}) {
+  const code=ts.transpileModule(fs.readFileSync(path,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText;
+  const exports={};
+  vm.runInNewContext(code,{exports,require:name=>imports[name]||require(name),process,Intl},{filename:path});
+  return exports;
+}
+const catalog=load('src/lib/store-products.ts');
+const {storeProducts:products}=catalog;
+const {checkoutItems,stripeStore}=load('src/lib/stripe-store.ts',{'@/lib/store-products':catalog});
+assert.equal(products.length,32);
+assert.equal(new Set(products.map(p=>p.sku)).size,32);
+assert.equal(new Set(products.map(p=>p.slug)).size,32);
+for(const p of products) {
+  assert.ok(Number.isSafeInteger(p.unitsPerCase)&&p.unitsPerCase>0);
+  assert.ok(Number.isSafeInteger(p.minCases)&&p.minCases>0);
+  assert.ok(p.price>0);
+  if(p.image.startsWith('/'))assert.ok(fs.existsSync('public'+p.image),p.sku);
+  assert.ok(!['CRSCT15-V-BC','CRSCT50-V-BC','CRLT-50-I-S'].includes(p.supplierSku));
+  if(p.quoteOnly){assert.throws(()=>checkoutItems({[p.sku]:p.minCases}),/confirm packaging/);continue;}
+  const item=checkoutItems({[p.sku]:p.minCases})[0];
+  assert.equal(item.quantity,p.minCases);
+  assert.equal(item.price_data.unit_amount,Math.round(p.price*100));
+  assert.equal(item.price_data.product_data.metadata.sku,p.sku);
+  assert.throws(()=>checkoutItems({[p.sku]:p.minCases-1}),/whole/);
+  assert.throws(()=>checkoutItems({[p.sku]:p.minCases+.5}),/whole/);
+}
+assert.equal(products.find(p=>p.supplierSku==='CRFT200-TP-9').unitsPerCase,4800);
+assert.equal(products.find(p=>p.supplierSku==='CRPC04-3-TP-FS').unitsPerCase,100);
+assert.equal(products.find(p=>p.supplierSku==='CRDP-SC-9').orderUnit,'bag');
+const cart=Object.fromEntries(products.filter(p=>!p.quoteOnly).map(p=>[p.sku,p.minCases]));
+assert.equal(checkoutItems(cart).length,31);
+assert.throws(()=>checkoutItems({}),/empty/);
+assert.throws(()=>checkoutItems({'unlisted-sku':10}),/Unknown/);
+assert.throws(()=>checkoutItems({[products[0].sku]:'10'}),/whole/);
+assert.throws(()=>checkoutItems({[products[0].sku]:5000}),/whole/);
+const first=products[0];const min=first.minCases;first.minCases=12;
+assert.throws(()=>checkoutItems({[first.sku]:10}),/12/);first.minCases=min;
+const prior=process.env.STRIPE_SECRET_KEY;
+process.env.STRIPE_SECRET_KEY='sk_live_placeholder';assert.throws(stripeStore,/test key/);
+if(prior===undefined)delete process.env.STRIPE_SECRET_KEY;else process.env.STRIPE_SECRET_KEY=prior;
+console.log('Validated 32 listings, 31 purchasable sandbox products, local images, catalog-derived prices, pack sizes, per-product minimums and rejected invalid carts/live keys.');
