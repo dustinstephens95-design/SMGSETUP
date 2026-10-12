@@ -2,7 +2,9 @@
 
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { storeProducts, money } from "@/lib/store-products";
+import { storeCategories } from "@/lib/store-categories";
 
 type Cart = Record<string, number>;
 const storageKey = "smg-cart-v1";
@@ -21,13 +23,15 @@ function useCart(): [Cart, (next: Cart) => void] {
   return [cart, next => { localStorage.setItem(storageKey, JSON.stringify(next)); window.dispatchEvent(new Event("smg-cart-change")); }];
 }
 
-export function StoreFront({ slug }: { slug?: string }) {
+export function StoreFront({ slug, categorySlug }: { slug?: string; categorySlug?: string }) {
+  const router = useRouter();
   const [cart, save] = useCart();
   const [quantities, setQuantities] = useState<Record<string, string>>({});
   const [notice, setNotice] = useState("");
-  const [category, setCategory] = useState("All products");
+  const selectedCategory = storeCategories.find(c => c.slug === categorySlug);
+  const [category, setCategory] = useState(selectedCategory?.name || "All products");
   const [search, setSearch] = useState("");
-  const categories = ["All products", ...new Set(storeProducts.map(p => p.category))];
+  const categories = ["All products", ...storeCategories.map(c => c.name)];
   function add(sku: string) {
     const product = storeProducts.find(p => p.sku === sku);
     if (!product || product.quoteOnly) return;
@@ -37,12 +41,18 @@ export function StoreFront({ slug }: { slug?: string }) {
   }
   const products = storeProducts.filter(p => slug ? p.slug === slug : (category === "All products" || p.category === category) && `${p.title} ${p.sku} ${p.supplierSku || ""}`.toLowerCase().includes(search.trim().toLowerCase()));
   const count = Object.values(cart).reduce((sum, q) => sum + q, 0);
+  const browsingCategories = !slug && !categorySlug && category === "All products" && !search.trim();
   return <div className="smg-store">
-    <div className="store-heading"><div><p className="store-eyebrow">SMG LABORATORY SUPPLIES</p><h1>{slug ? "Product details" : "Built for your laboratory workflow."}</h1><p>Pipette tips, PCR supplies, extraction consumables and everyday laboratory essentials. Bulk ordering with clear pack sizes.</p></div><Link className="store-button" href="/shop/cart">View cart · {count} packs</Link></div>
+    {(slug || categorySlug) && <Link className="store-back" href="/shop">← Shop all categories</Link>}
+    <div className="store-heading"><div><p className="store-eyebrow">SMG LABORATORY SUPPLIES</p><h1>{slug ? "Product details" : selectedCategory?.name || "Shop by category."}</h1><p>{selectedCategory?.description || "Find laboratory supplies by workflow. Choose a category to browse products, packaging and bulk pricing."}</p></div><Link className="store-button" href="/shop/cart">View cart · {count} packs</Link></div>
     <div className="store-banner"><strong>Bulk orders · Product-specific packaging</strong><span>See each listing for minimum quantities · Lead time approximately 6–7 weeks</span></div>
-    {!slug && <div className="store-tools"><label className="store-filter">Browse <select value={category} onChange={e => setCategory(e.target.value)}>{categories.map(c => <option key={c}>{c}</option>)}</select></label><label className="store-search">Find a product<input type="search" placeholder="Product, volume or SKU" value={search} onChange={e => setSearch(e.target.value)} /></label><p>{products.length} products</p></div>}
+    {!slug && <div className="store-tools"><label className="store-filter">Browse <select value={category} onChange={e => { if (categorySlug) { const target = storeCategories.find(c => c.name === e.target.value); router.push(target ? `/shop/category/${target.slug}` : "/shop"); } else setCategory(e.target.value); }}>{categories.map(c => <option key={c}>{c}</option>)}</select></label><label className="store-search">Find a product<input type="search" placeholder="Product, volume or SKU" value={search} onChange={e => setSearch(e.target.value)} /></label><p>{products.length} products</p></div>}
+    {browsingCategories && <section aria-label="Shop by category" className="store-category-grid">{storeCategories.map(c => <Link className="store-category-card" key={c.slug} href={`/shop/category/${c.slug}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={c.image} alt="" loading="lazy" /><div><h2>{c.name}</h2><p>{c.description}</p><span>{storeProducts.filter(p => p.category === c.name).length} products · Browse category →</span></div>
+    </Link>)}</section>}
     <p role="status" aria-live="polite">{notice}</p>
-    <div className={slug ? "store-grid store-detail" : "store-grid"}>{products.map(p => <article className="store-card" key={p.sku}>
+    {!browsingCategories && <div className={slug ? "store-grid store-detail" : "store-grid"}>{products.map(p => <article className="store-card" key={p.sku}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <div className="store-product-visual"><img loading={slug ? "eager" : "lazy"} src={p.image || ""} alt={p.imageAlt || p.title} />{p.imageCaption && <p className="store-image-caption">{p.imageCaption}</p>}</div>
       <div className="store-card-body"><p className="store-eyebrow">{p.category}</p><h2><Link href={`/shop/${p.slug}`}>{p.title}</Link></h2><p className="store-sku">SKU: {p.sku}</p><p className="store-price">{money(p.price)} <span>/ {p.orderUnit}</span></p><p>{p.packLabel} per {p.orderUnit}</p>
@@ -51,7 +61,7 @@ export function StoreFront({ slug }: { slug?: string }) {
       <p>Product total: <strong>{money(p.price * Math.max(0, Number(quantities[p.sku] ?? p.minCases) || 0))}</strong></p>{p.quoteOnly ? <a className="store-button" href={`mailto:dustin@stephensmolecular.com?subject=${encodeURIComponent(`Packaging confirmation: ${p.sku}`)}`}>Confirm packaging with SMG</a> : <button className="store-button" onClick={() => add(p.sku)}>Add to cart</button>}
       {!slug && <Link className="store-details-link" href={`/shop/${p.slug}`}>Specifications & packaging →</Link>}
       {slug && <div className="store-description" dangerouslySetInnerHTML={{ __html: p.descriptionHtml }} />}</div>
-    </article>)}</div>{!products.length && <p>No products match your search. Try another name, volume or SKU.</p>}
+    </article>)}</div>}{!products.length && <p>No products match your search. Try another name, volume or SKU.</p>}
     <p className="store-help">For laboratory use only. Confirm instrument and protocol compatibility before ordering.</p>
   </div>;
 }

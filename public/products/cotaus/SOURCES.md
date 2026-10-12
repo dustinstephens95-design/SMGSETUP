@@ -22,3 +22,8 @@ Family illustrations are labelled representative; they do not establish sterilit
 - serological.jpg: PDF page 30, crop (0.55, 0.28, 0.71, 0.626)
 - elisa-plate.jpg: PDF page 24, crop (0.033, 0.236, 0.26, 0.56)
 - sealing-film.jpg: PDF page 41, crop (0.014, 0.02, 0.496, 0.57)
+
+Manufacturer listing photographs added October 12, 2026:
+- deepwell-photo.webp: https://www.made-in-china.com/showroom/probecover/product-detailvKzJXklUXWhp/China-Pharma-Kingfisher-Flex-96-Deep-Well-Plates-Mircoplates-0-35ml-1-2ml-1-3ml-2-0ml-2-2ml-V-U-Bottom-Square-Round-Wells.html (lists CRDP22-SV-9).
+- pcrstrip-photo.webp: https://www.made-in-china.com/showroom/probecover/product-detailXBtEqvayZbYD/China-Factory-Direct-Supply-0-1ml-0-2ml-8-Strip-PCR-Tubes-with-Cover-for-PCR-Experiment.html (PCR strip family; exact profile/cap requires supplier confirmation).
+All family photos retain representative captions. White 96-well plate and conductive black tip photos were not substituted for the selected clear products. Other catalog illustrations remain until matching supplier photos are supplied.

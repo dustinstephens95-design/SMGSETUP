@@ -12,6 +12,10 @@ function load(path,imports={}) {
 }
 const catalog=load('src/lib/store-products.ts');
 const {storeProducts:products}=catalog;
+const {storeCategories:categories}=load('src/lib/store-categories.ts');
+assert.equal(categories.length,8);
+for(const c of categories){assert.ok(products.some(p=>p.category===c.name));assert.ok(fs.existsSync('public'+c.image));}
+for(const p of products)assert.ok(categories.some(c=>c.name===p.category),p.sku);
 const {checkoutItems,stripeStore}=load('src/lib/stripe-store.ts',{'@/lib/store-products':catalog});
 assert.equal(products.length,32);
 assert.equal(new Set(products.map(p=>p.sku)).size,32);

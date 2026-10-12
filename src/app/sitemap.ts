@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPanelsWithBrochures } from "@/lib/brochures";
 import { storeProducts } from "@/lib/store-products";
+import { storeCategories } from "@/lib/store-categories";
 
 const SITE_URL = "https://stephensmolecular.com";
 
@@ -47,6 +48,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...panelRoutes,
     ...storeProducts.map((product) => ({
       url: `${SITE_URL}/shop/${product.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    ...storeCategories.map((category) => ({
+      url: `${SITE_URL}/shop/category/${category.slug}`,
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),

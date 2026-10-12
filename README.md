@@ -12,6 +12,8 @@ Current build includes:
 
 The catalog lives in `src/lib/store-products.ts`. Each product owns its sale pack, physical piece count, minimum quantity, price and image. Categories and search are derived from the catalog. The cart and server-side Checkout validation use the same catalog.
 
+`/shop` opens on eight category cards. Dedicated pages at `/shop/category/[category]` separate manual tips, robotic tips, PCR supplies, extraction supplies, sealing accessories, tubes/cryovials, transfer/serological pipettes and ELISA plates. Category counts derive from catalog records and every product belongs to one category. Prices and ordering rules are unchanged by the category redesign.
+
 Prices follow the October 12 SMG revised pricing draft and include a planning freight allowance. The three excluded items (15 mL conical tubes, 50 mL conical tubes and 50 mL reservoirs) are not in the catalog. Existing listings keep their established SKU and route, with prices updated to the approved draft. Cotaus catalog graphics are local under `public/products/cotaus`; `SOURCES.md` records provenance. Representative illustrations do not establish certification or fit.
 
 The 2 mL cryovial is listed with a packaging-confirmation contact action instead of checkout while its supplier pack size is unresolved. Silicone mats are sold as bags of 50, not assumed cartons. All listings state a 6–7-week lead time.
