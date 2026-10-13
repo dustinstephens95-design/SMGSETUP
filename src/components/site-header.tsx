@@ -7,10 +7,11 @@ import { CTAButton } from "@/components/cta-button";
 import { TrackedLink } from "@/components/tracked-link";
 
 const navItems = [
-  { href: "#services", label: "Services" },
-  { href: "#panels", label: "Panels" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#services", label: "Services" },
+  { href: "/#panels", label: "Panels" },
+  { href: "/shop", label: "Shop" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
