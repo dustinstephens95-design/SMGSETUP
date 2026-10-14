@@ -3,7 +3,9 @@ import { checkoutItems, stripeStore } from "@/lib/stripe-store";
 export const runtime = "nodejs";
 export async function POST(request: NextRequest) {
   const origin = process.env.SITE_URL || "http://localhost:3000";
-  if (request.headers.get("origin") !== origin) return NextResponse.json({ error: "Checkout must start from the store." }, { status: 403 });
+  const acceptedOrigins = new Set([origin]);
+  if (origin === "https://stephensmolecular.com") acceptedOrigins.add("https://www.stephensmolecular.com");
+  if (!acceptedOrigins.has(request.headers.get("origin") || "")) return NextResponse.json({ error: "Checkout must start from the store." }, { status: 403 });
   let items;
   let attempt;
   try {

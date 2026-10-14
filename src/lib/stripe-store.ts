@@ -1,9 +1,9 @@
 import Stripe from "stripe";
 import { storeProducts } from "@/lib/store-products";
 export function stripeStore() {
-  const key = process.env.STRIPE_SECRET_KEY;
-  if (!key || !/^(rk|sk)_(test|live)_/.test(key)) throw new Error("Stripe key is not configured.");
-  if (/^(rk|sk)_live_/.test(key) && process.env.VERCEL_ENV !== "production") throw new Error("Live payments require a production deployment.");
+  const key = process.env.STRIPE_SECRET_KEY?.trim();
+  if (!key || !/^(rk|sk)_(test|live)_/.test(key)) throw Object.assign(new Error("Stripe key is not configured."), { code: "missing_or_invalid_stripe_key" });
+  if (/^(rk|sk)_live_/.test(key) && process.env.VERCEL_ENV !== "production") throw Object.assign(new Error("Live payments require a production deployment."), { code: "live_key_outside_production" });
   return new Stripe(key);
 }
 export function checkoutItems(cart: unknown) {
