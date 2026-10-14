@@ -28,7 +28,12 @@ export async function POST(request: NextRequest) {
       custom_text: { submit: { message: "US freight is included. Applicable tax is calculated at checkout. Estimated fulfillment: 6–7 weeks after written order confirmation." } },
     }, { idempotencyKey: `smg-${attempt}` });
     return NextResponse.json({ url: session.url });
-  } catch {
-    return NextResponse.json({ error: "Checkout is temporarily unavailable. Please contact SMG before retrying." }, { status: 503 });
+  } catch (error) {
+    const detail = error as { type?: string; code?: string; param?: string };
+    // Diagnostic identifiers only; never return keys, request bodies or Stripe messages.
+    const reason = detail.type || "server_configuration";
+    const code = detail.code || null;
+    console.error("SMG checkout unavailable", { reason, code, parameter: detail.param || null });
+    return NextResponse.json({ error: "Checkout is temporarily unavailable. Please contact SMG before retrying.", reason, code }, { status: 503 });
   }
 }
