@@ -1,5 +1,5 @@
 import type { StoreProduct } from "./store-products";
-export const freightNote = "Listed prices include a provisional allowance for overseas freight to the delivery address in your quote. Final delivered pricing depends on the destination, order mix and shipment date and must be confirmed in your written quote. Applicable taxes are additional.";
+export const freightNote = "Listed prices include overseas freight and delivery to your US shipping address. SMG covers any additional freight cost; no freight surcharge will be added after checkout. Applicable taxes are additional and calculated at checkout.";
 export function compatibilityGuidance(p: StoreProduct): string {
   if (p.supplierSku?.includes("-H-")) return "Supplier catalog lists Hamilton STAR, STARlet and Nimbus for this tip family (catalog p. 9). Confirm the instrument head, rack/carrier and protocol for your exact SKU before ordering. This is supplier-reported compatibility, not an independent SMG instrument validation.";
   if (p.supplierSku?.includes("-B-")) return "Supplier catalog lists Beckman Biomek i5, i7, FX and NX for this tip family (catalog p. 10). Confirm the instrument head, rack/carrier and protocol for your exact SKU before ordering. This is supplier-reported compatibility, not an independent SMG instrument validation.";

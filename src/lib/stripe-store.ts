@@ -2,7 +2,8 @@ import Stripe from "stripe";
 import { storeProducts } from "@/lib/store-products";
 export function stripeStore() {
   const key = process.env.STRIPE_SECRET_KEY;
-  if (!key || !/^(rk|sk)_test_/.test(key)) throw new Error("Sandbox checkout requires a test key.");
+  if (!key || !/^(rk|sk)_(test|live)_/.test(key)) throw new Error("Stripe key is not configured.");
+  if (/^(rk|sk)_live_/.test(key) && process.env.VERCEL_ENV !== "production") throw new Error("Live payments require a production deployment.");
   return new Stripe(key);
 }
 export function checkoutItems(cart: unknown) {
@@ -21,6 +22,7 @@ export function checkoutItems(cart: unknown) {
       price_data: {
         currency: "usd",
         unit_amount: unitAmount,
+        tax_behavior: "exclusive" as const,
         product_data: {
           name: product.title,
           description: `${product.packLabel} per ${product.orderUnit}. Lead time approximately 6–7 weeks.`,

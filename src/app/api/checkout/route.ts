@@ -22,13 +22,13 @@ export async function POST(request: NextRequest) {
       integration_identifier: "smg_store_qhtmavxp",
       success_url: `${origin}/shop/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/shop/cart`,
-      billing_address_collection: "required",
+      automatic_tax: { enabled: true },
       shipping_address_collection: { allowed_countries: ["US"] },
-      metadata: { source: "smg_store_sandbox" },
-      custom_text: { submit: { message: "Sandbox test only. No goods will be shipped. Live shipping and taxes are still being configured." } },
+      metadata: { source: "smg_store", fulfillment_status: "awaiting_payment" },
+      custom_text: { submit: { message: "US freight is included. Applicable tax is calculated at checkout. Estimated fulfillment: 6–7 weeks after written order confirmation." } },
     }, { idempotencyKey: `smg-${attempt}` });
     return NextResponse.json({ url: session.url });
   } catch {
-    return NextResponse.json({ error: "Sandbox checkout is unavailable. Check the server test key and Checkout Sessions permission." }, { status: 503 });
+    return NextResponse.json({ error: "Checkout is temporarily unavailable. Please contact SMG before retrying." }, { status: 503 });
   }
 }

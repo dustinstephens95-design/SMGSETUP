@@ -46,9 +46,9 @@ assert.throws(()=>checkoutItems({[products[0].sku]:5000}),/whole/);
 const first=products[0];const min=first.minCases;first.minCases=12;
 assert.throws(()=>checkoutItems({[first.sku]:10}),/12/);first.minCases=min;
 const prior=process.env.STRIPE_SECRET_KEY;
-process.env.STRIPE_SECRET_KEY='sk_live_placeholder';assert.throws(stripeStore,/test key/);
+process.env.STRIPE_SECRET_KEY='rk_live_placeholder';assert.throws(stripeStore,/production deployment/);
 if(prior===undefined)delete process.env.STRIPE_SECRET_KEY;else process.env.STRIPE_SECRET_KEY=prior;
-console.log('Validated 29 listings, 28 purchasable sandbox products, local images, catalog-derived prices, pack sizes, per-product minimums and rejected invalid carts/live keys.');
+console.log('Validated 29 listings, 28 purchasable products, local images, catalog-derived prices, pack sizes, per-product minimums and rejected invalid carts and live keys outside production.');
 
 assert.equal(Object.keys(catalog.legacyProductRedirects).length,3);
 for(const [old,target] of Object.entries(catalog.legacyProductRedirects)){assert.ok(!products.some(p=>p.slug===old));assert.ok(products.some(p=>p.slug===target));}
