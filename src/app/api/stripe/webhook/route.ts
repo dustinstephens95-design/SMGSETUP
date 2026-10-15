@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
         // A delayed failure must never overwrite an already-paid order.
         if (session.payment_status === "paid" && session.metadata.payment_verified !== "true") {
           await stripe.checkout.sessions.update(session.id, { metadata: {
-            payment_verified: "true", fulfillment_status: "pending_manual_review",
+            payment_verified: "true", fulfillment_status: session.metadata.internal_test === "true" ? "internal_test_verified" : "pending_manual_review",
             payment_event_id: event.id,
           } });
         } else if (event.type === "checkout.session.async_payment_failed" && session.payment_status !== "paid" && session.metadata.payment_verified !== "true") {
